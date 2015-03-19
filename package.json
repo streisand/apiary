@@ -24,8 +24,10 @@
     "jade": "~1.6.0",
     "morgan": "~1.3.0",
     "react": "^0.13.1",
+    "scgi-stream": "^0.3.1",
     "serve-favicon": "~2.1.3",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "xmlrpc-stream": "0.0.1"
   },
   "devDependencies": {
     "browserify": "^9.0.3",
