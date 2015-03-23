@@ -1,29 +1,40 @@
 var React = require('react');
 var socket = io.connect('http://localhost:3000');
+
+socket.on('rtorrent', function(payload) {
+    console.log(payload);
+});
+
 var MainPage = React.createClass({
 
+    getInitialState: function() {
+        return {
+            count: 0
+        };
+    },
 
-  getInitialState: function() {
-    return {
-      count: 0
-    };
-  },
+    render: function() {
 
-  render: function() {
+        return (
+            <div className="main-container">
+                <button onClick={this.rtorrentDownloads}>Get Download List</button><br/>
+                <button onClick={this.rtorrentDownloadRate}>Get Download Rate</button><br/>
+                <button onClick={this.rtorrentUploadRate}>Get Upload Rate</button><br/>
+            </div>
+        )
+    },
 
-    return (
-      <div className="main-container">
-        <button onClick={this.rtorrentData}>Get Data</button>
-      </div>
-    )
-  },
+    rtorrentDownloads: function(e) {
+        socket.emit('rtorrent', 'download_list');
+    },
 
-  rtorrentData: function(e) {
-    socket.emit('rtorrent', 'fetch-info');
-    socket.on('rtorrent', function(payload) {
-      console.log(payload);
-    })
-  }
+    rtorrentDownloadRate: function(e) {
+        socket.emit('rtorrent', 'get_down_rate');
+    },
+
+    rtorrentUploadRate: function(e) {
+        socket.emit('rtorrent', 'get_up_rate');
+    }
 });
 
 

@@ -9,14 +9,6 @@ React.render(
 );
 
 
-// if we get an "info" emit from the socket server then console.log the data we recive
-var socket = io.connect('http://localhost:3000');
-socket.on('news', function (data) {
-  //console.log(data);
-  socket.emit('my other event', { my: 'data' });
-});
-
-
 },{"./js/components/MainPage":158,"react":157}],2:[function(require,module,exports){
 // shim for using process in browser
 
@@ -19737,30 +19729,41 @@ module.exports = require('./lib/React');
 },{"./lib/React":30}],158:[function(require,module,exports){
 var React = require('react');
 var socket = io.connect('http://localhost:3000');
+
+socket.on('rtorrent', function(payload) {
+    console.log(payload);
+});
+
 var MainPage = React.createClass({displayName: "MainPage",
 
+    getInitialState: function() {
+        return {
+            count: 0
+        };
+    },
 
-  getInitialState: function() {
-    return {
-      count: 0
-    };
-  },
+    render: function() {
 
-  render: function() {
+        return (
+            React.createElement("div", {className: "main-container"}, 
+                React.createElement("button", {onClick: this.rtorrentDownloads}, "Get Download List"), React.createElement("br", null), 
+                React.createElement("button", {onClick: this.rtorrentDownloadRate}, "Get Download Rate"), React.createElement("br", null), 
+                React.createElement("button", {onClick: this.rtorrentUploadRate}, "Get Upload Rate"), React.createElement("br", null)
+            )
+        )
+    },
 
-    return (
-      React.createElement("div", {className: "main-container"}, 
-        React.createElement("button", {onClick: this.rtorrentData}, "Get Data")
-      )
-    )
-  },
+    rtorrentDownloads: function(e) {
+        socket.emit('rtorrent', 'download_list');
+    },
 
-  rtorrentData: function(e) {
-    socket.emit('rtorrent', 'fetch-info');
-    socket.on('rtorrent', function(payload) {
-      console.log(payload);
-    })
-  }
+    rtorrentDownloadRate: function(e) {
+        socket.emit('rtorrent', 'get_down_rate');
+    },
+
+    rtorrentUploadRate: function(e) {
+        socket.emit('rtorrent', 'get_up_rate');
+    }
 });
 
 
