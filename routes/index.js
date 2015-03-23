@@ -13,13 +13,8 @@ var rpc = new RPC(function() {
 
 /* GET home page. */
 router.get('/', function(req, res) {
-
   res.render('index', { title: 'Express' });
 });
 
-
-router.get('/rtorrent', function(req, res) {
-
-})
 
 module.exports = router;

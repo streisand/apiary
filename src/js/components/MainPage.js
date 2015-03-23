@@ -13,35 +13,16 @@ var MainPage = React.createClass({
 
     return (
       <div className="main-container">
-        <h1> Apiary </h1>
-        <p> Apiary is going to be awesome </p>
-        <br/>
-        <br/>
-        <h3> Let's look at a React demo </h3>
-        <p>
-          Imagine that you had a button that incremented
-          a counter when you clicked it
-        </p>
-        <br/>
-        <button onClick={this.updateClicker}> Click Me Bitch </button>
-        <br/>
-        <br/>
-        <div>
-          <span>
-            Click Counter: {this.state.count}
-          </span>
-        </div>
-
+        <button onClick={this.rtorrentData}>Get Data</button>
       </div>
     )
   },
 
-  updateClicker: function(e) {
-
-    this.setState({
-      count: this.state.count + 1
-    });
-    socket.emit('react-event', {data: this.state.count + 1})
+  rtorrentData: function(e) {
+    socket.emit('rtorrent', 'fetch-info');
+    socket.on('rtorrent', function(payload) {
+      console.log(payload);
+    })
   }
 });
 

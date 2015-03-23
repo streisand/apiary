@@ -12,7 +12,7 @@ React.render(
 // if we get an "info" emit from the socket server then console.log the data we recive
 var socket = io.connect('http://localhost:3000');
 socket.on('news', function (data) {
-  console.log(data);
+  //console.log(data);
   socket.emit('my other event', { my: 'data' });
 });
 
@@ -19750,35 +19750,16 @@ var MainPage = React.createClass({displayName: "MainPage",
 
     return (
       React.createElement("div", {className: "main-container"}, 
-        React.createElement("h1", null, " Apiary "), 
-        React.createElement("p", null, " Apiary is going to be awesome "), 
-        React.createElement("br", null), 
-        React.createElement("br", null), 
-        React.createElement("h3", null, " Let's look at a React demo "), 
-        React.createElement("p", null, 
-          "Imagine that you had a button that incremented" + ' ' +
-          "a counter when you clicked it"
-        ), 
-        React.createElement("br", null), 
-        React.createElement("button", {onClick: this.updateClicker}, " Click Me Bitch "), 
-        React.createElement("br", null), 
-        React.createElement("br", null), 
-        React.createElement("div", null, 
-          React.createElement("span", null, 
-            "Click Counter: ", this.state.count
-          )
-        )
-
+        React.createElement("button", {onClick: this.rtorrentData}, "Get Data")
       )
     )
   },
 
-  updateClicker: function(e) {
-
-    this.setState({
-      count: this.state.count + 1
-    });
-    socket.emit('react-event', {data: this.state.count + 1})
+  rtorrentData: function(e) {
+    socket.emit('rtorrent', 'fetch-info');
+    socket.on('rtorrent', function(payload) {
+      console.log(payload);
+    })
   }
 });
 

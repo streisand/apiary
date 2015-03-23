@@ -1,6 +1,16 @@
 #!/usr/bin/env node
 var debug = require('debug')('apiary');
 var app = require('../app');
+var scgi = require("scgi-stream");
+var RPC  = require("xmlrpc-stream");
+
+var rpc = new RPC(function() {
+  return scgi.duplex({
+    host: "127.0.0.1",
+    port: 4000,
+    path: "/"
+  });
+});
 
 app.set('port', process.env.PORT || 3000);
 
@@ -9,5 +19,14 @@ var server = app.listen(app.get('port'), function() {
 });
 
 
+var io = require('socket.io')(server);
 
-module.exports = server;
+io.on('connection', function (socket) {
+  socket.on('rtorrent', function(payload) {
+    console.log('download rate:')
+      rpc.call("download_rate", function(err, res) {
+        //socket.emit('rtorrent', res);
+        console.log(err, res);
+    })
+  })
+});
