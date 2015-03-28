@@ -1,9 +1,53 @@
 #!/usr/bin/env node
 var debug = require('debug')('apiary');
 var app = require('../app');
+var socketIO = require('socket.io');
+var scgi = require("scgi-stream");
+var RPC = require("xmlrpc-stream");
+
+var rpc = new RPC(function() {
+  return scgi.duplex({
+    host: "127.0.0.1",
+    port: 4000,
+    path: "/"
+  });
+});
 
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });
+
+var io = socketIO(server);
+
+var torrents = [];
+
+function fetchTorrents(socket) {
+  rpc.call("d.multicall", "default", "d.get_hash=", "d.get_name=",  "d.get_bytes_done=",  "d.get_down_rate=", "d.get_up_rate=", "d.get_creation_date=", "d.get_size_bytes=", function(err, res) {
+    torrents = res.map(function(torrentInfo) {
+      var torrentObj = {};
+
+      torrentObj.infoHash = torrentInfo[0];
+      torrentObj.name = torrentInfo[1];
+      torrentObj.downloadAmount = torrentInfo[2];
+      torrentObj.downloadSpeed = torrentInfo[3];
+      torrentObj.uploadSpeed = torrentInfo[4];
+      torrentObj.creationDate = torrentInfo[5];
+      torrentObj.totalSize = torrentInfo[6];
+
+      return torrentObj;
+    });
+    socket.emit('fetch-torrents', torrents);
+  });
+};
+
+
+io.on('connection', function(socket) {
+  console.log('about to emit fetch-torrents');
+  fetchTorrents(socket);
+  socket.on('getUpdates', function(res) {
+    fetchTorrents(socket);
+  })
+});
+

@@ -19728,21 +19728,80 @@ module.exports = require('./lib/React');
 
 },{"./lib/React":30}],158:[function(require,module,exports){
 var React = require('react');
+var Torrent = require('./Torrent');
+
+var socket = io.connect('http://localhost:3000');
 
 var MainPage = React.createClass({displayName: "MainPage",
+
+  getInitialState: function() {
+    return {
+      torrents: []
+    }
+  },
+
+  componentDidMount: function() {
+    var fetchTorrents = (function(torrentsArray) {
+      this.setState({
+        torrents: torrentsArray
+      })
+    }).bind(this);
+
+    socket.on('fetch-torrents', fetchTorrents);
+    var getUpdates = function() {
+      socket.emit('getUpdates', {})
+    };
+
+    setInterval(getUpdates, 20);
+
+  },
 
   render: function() {
     return (
       React.createElement("div", {className: "main-container"}, 
-        React.createElement("h1", null, " Apiary "), 
-        React.createElement("p", null, " Apiary is going to be awesome ")
+      this.renderTorrents()
       )
     );
+  },
+
+  renderTorrents: function() {
+    return this.state.torrents.map(function(torrent) {
+      return React.createElement(Torrent, React.__spread({key: torrent.infoHash},  torrent))
+    })
   }
 });
 
 
 module.exports = MainPage;
 
+
+},{"./Torrent":159,"react":157}],159:[function(require,module,exports){
+var React = require('react');
+
+var Torrent = React.createClass({displayName: "Torrent",
+
+  getInitialState: function() {
+    return {
+      torrent: {}
+    }
+  },
+
+  render: function() {
+    return (
+      React.createElement("div", {className: "torrent"}, 
+        React.createElement("p", {className: "torrent-info torrent-name"}, this.props.name), 
+        React.createElement("p", {className: "torrent-info download-amount"}, this.props.downloadAmount), 
+        React.createElement("p", {className: "torrent-info"}, this.props.downloadSpeed), 
+        React.createElement("p", {className: "torrent-info"}, this.props.uploadSpeed), 
+        React.createElement("p", {className: "torrent-info total-size"}, this.props.totalSize), 
+        React.createElement("p", {className: "torrent-info progress-bar"}, React.createElement("progress", {value: this.props.downloadAmount, max: this.props.totalSize}))
+      )
+    )
+  }
+
+
+});
+
+module.exports = Torrent;
 
 },{"react":157}]},{},[1]);
