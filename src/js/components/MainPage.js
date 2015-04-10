@@ -35,6 +35,7 @@ var MainPage = React.createClass({
     );
   },
 
+
   renderTorrents: function() {
     return this.state.torrents.map(function(torrent) {
       if (torrent.isActive) {
