@@ -51,14 +51,3 @@ var Torrent = React.createClass({
 
 module.exports = Torrent;
 
-
-
-/*
-
- <p className="torrent-info download-amount">{this.bytesToSize(this.props.downloadAmount)}</p>
-
-
- <p className="torrent-info total-size">{this.bytesToSize(this.props.totalSize)}</p>
- <p className="torrent-info progress-bar"></p>
- <p>{this.getPercentCompleted()}%</p>
- */
