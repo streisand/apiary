@@ -1,7 +1,7 @@
 var React = require('react');
 var Torrent = require('./Torrent');
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect(document.URL);
 
 var MainPage = React.createClass({
 
@@ -41,7 +41,9 @@ var MainPage = React.createClass({
 
   renderTorrents: function(filterCondition) {
     return this.state.torrents.map(function(torrent) {
-      return <Torrent key={torrent.infoHash} {...torrent}/>
+      if (torrent.isActive) {
+        return <Torrent key={torrent.infoHash} {...torrent}/>
+      }
     })
   }
 });
