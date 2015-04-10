@@ -25,7 +25,7 @@ var io = socketIO(server);
 var torrents = [];
 
 function fetchTorrents(socket) {
-  rpc.call("d.multicall", "default", "d.get_hash=", "d.get_name=",  "d.get_bytes_done=",  "d.get_down_rate=", "d.get_up_rate=", "d.get_creation_date=", "d.get_size_bytes=", function(err, res) {
+  rpc.call("d.multicall", "active", "d.get_hash=", "d.get_name=",  "d.get_bytes_done=",  "d.get_down_rate=", "d.get_up_rate=", "d.get_creation_date=", "d.get_size_bytes=", "or={d.get_up_rate=,d.get_down_rate=}", function(err, res) {
     torrents = res.map(function(torrentInfo) {
       var torrentObj = {};
 
@@ -36,6 +36,7 @@ function fetchTorrents(socket) {
       torrentObj.uploadSpeed = torrentInfo[4];
       torrentObj.creationDate = torrentInfo[5];
       torrentObj.totalSize = torrentInfo[6];
+      torrentObj.isActive = torrentInfo[7] === 1;
 
       return torrentObj;
     });
