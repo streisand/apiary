@@ -17,20 +17,4 @@ a {
 #main-content {
   @include outer-container;
 
-  .torrent {
-    @include span-columns(12 of 12);
-
-    .torrent-info {
-      @include span-columns(1 of 12);
-    }
-    .download-amount, .total-size {
-      @include span-columns(2 of 12);
-    }
-    .torrent-name {
-      @include span-columns(4 of 12);
-    }
-    .progress-bar {
-      @include span-columns(2 of 12);
-    }
-  }
 }

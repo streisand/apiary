@@ -17,8 +17,14 @@ var Torrent = React.createClass({
         <p className="torrent-info">{this.bytesToSize(this.props.uploadSpeed)}/s</p>
         <p className="torrent-info total-size">{this.bytesToSize(this.props.totalSize)}</p>
         <p className="torrent-info progress-bar"><progress value={this.props.downloadAmount} max={this.props.totalSize}></progress></p>
+        <p>{this.getPercentCompleted()}%</p>
       </div>
     )
+  },
+  getPercentCompleted: function() {
+    var percentCompleted = (this.props.downloadAmount / this.props.totalSize) * 100;
+    percentCompleted = percentCompleted.toFixed(1);
+    return percentCompleted;
   },
 
   bytesToSize: function(bytes) {
