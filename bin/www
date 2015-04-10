@@ -23,12 +23,13 @@ var server = app.listen(app.get('port'), function() {
 var io = socketIO(server);
 
 var torrents = [];
-
+//rpc.call('ui.current_view.set', 'active', function(err, res) {
+//  console.log(err, res);
+//});
 function fetchTorrents(socket) {
-  rpc.call("d.multicall", "default", "d.get_hash=", "d.get_name=",  "d.get_bytes_done=",  "d.get_down_rate=", "d.get_up_rate=", "d.get_creation_date=", "d.get_size_bytes=", function(err, res) {
+  rpc.call("d.multicall", "default","d.get_hash=", "d.get_name=",  "d.get_bytes_done=",  "d.get_down_rate=", "d.get_up_rate=", "d.get_creation_date=", "d.get_size_bytes=", function(err, res) {
     torrents = res.map(function(torrentInfo) {
       var torrentObj = {};
-
       torrentObj.infoHash = torrentInfo[0];
       torrentObj.name = torrentInfo[1];
       torrentObj.downloadAmount = torrentInfo[2];

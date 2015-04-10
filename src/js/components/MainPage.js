@@ -35,7 +35,11 @@ var MainPage = React.createClass({
     );
   },
 
-  renderTorrents: function() {
+  filterTorrents: function(e) {
+    this.renderTorrents('active');
+  },
+
+  renderTorrents: function(filterCondition) {
     return this.state.torrents.map(function(torrent) {
       return <Torrent key={torrent.infoHash} {...torrent}/>
     })

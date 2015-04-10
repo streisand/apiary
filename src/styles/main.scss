@@ -2,19 +2,16 @@
 @import "neat";
 
 
-
-
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
-
 #main-content {
   @include outer-container;
 
+  .torrent {
+    @include span-columns(12 of 12);
+    .status-container {
+      @include span-columns(2 of 12, block-collapse);
+    }
+    .torrent-info {
+      @include span-columns(10 of 12, block-collapse);
+    }
+  }
 }
