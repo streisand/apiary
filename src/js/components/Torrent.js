@@ -35,10 +35,8 @@ var Torrent = React.createClass({
 
   getRatioUpOverDown: function() {
     var ratioUpOverDown = 0
-    if (this.props.uploadTotalSize == 0){
-    }
-    else{
-      var ratioUpOverDown = (this.props.uploadTotalSize / this.props.downloadTotalSize); 
+    if (this.props.uploadTotalSize != 0){
+      ratioUpOverDown = (this.props.uploadTotalSize / this.props.downloadTotalSize);
     }
     ratioUpOverDown = ratioUpOverDown.toFixed(2);
     return ratioUpOverDown;
