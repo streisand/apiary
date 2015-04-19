@@ -8,7 +8,7 @@ var reload     = connect.reload;
 var sass       = require('gulp-sass');
 var neat       = require('node-neat');
 
-gulp.task('default', ['js', 'connect', 'nodemon', 'watch']);
+gulp.task('default', ['js', 'sass', 'fonts', 'connect', 'nodemon', 'watch']);
 
 
 gulp.task('js', function() {
@@ -29,6 +29,11 @@ gulp.task('sass', function() {
     .pipe(reload());
 });
 
+gulp.task('fonts', function() {
+  gulp.src('./bower_components/semantic-ui-icon/assets/fonts/*')
+    .pipe(gulp.dest('public/css/assets/fonts/'));
+});
+
 gulp.task('watch', function() {
   gulp.watch('./src/js/**/*.js', ['js']);
   gulp.watch('./src/styles/**/*.scss', ['sass']);
@@ -42,6 +47,6 @@ gulp.task('connect', function() {
 });
 
 gulp.task('nodemon', function() {
-  return nodemon({script: './bin/www'})
+  return nodemon({script: './bin/www'});
 
 });
