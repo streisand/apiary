@@ -1,18 +1,19 @@
 var React = require('react');
+var Icon = require('./Icon');
 
 var Torrent = React.createClass({
 
   getInitialState: function() {
     return {
       torrent: {}
-    }
+    };
   },
 
   render: function() {
     return (
       <div id={this.props.infoHash} className="torrent">
         <div className="status-container">
-          <div className="status-info">Status</div>
+          <Icon className='arrow circle outline down icon'/>          
         </div>
         <div className="torrent-info">
           <div className="torrent-name">
@@ -28,7 +29,7 @@ var Torrent = React.createClass({
           </div>
         </div>
       </div>
-    )
+    );
   },
 
   getRatioUpOverDown: function() {
@@ -47,7 +48,7 @@ var Torrent = React.createClass({
   },
 
   bytesToSize: function(bytes) {
-    if(bytes == 0) return '0 B';
+    if(bytes === 0) return '0 B';
     var k = 1024 ;
     var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     var i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -57,4 +58,3 @@ var Torrent = React.createClass({
 });
 
 module.exports = Torrent;
-

@@ -3,4 +3,5 @@ node_modules/
 .idea/
 public/
 npm-debug.log
-*.sublime*
+*.sublime
+bower_components/

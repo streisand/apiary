@@ -1,0 +1,20 @@
+{
+  "name": "apiary",
+  "version": "0.0.0",
+  "homepage": "https://github.com/streisand/apiary",
+  "authors": [
+    "uzarubin <ustin.zarubin@getbellhops.com>",
+    "hwkns <daniel.hawkins@getbellhops.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic-ui-icon": "~1.11.7"
+  }
+}

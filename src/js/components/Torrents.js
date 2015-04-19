@@ -30,7 +30,7 @@ var MainPage = React.createClass({
   render: function() {
     return (
       <div className="main-container">
-      {this.renderTorrents()}
+        {this.renderTorrents()}
       </div>
     );
   },
