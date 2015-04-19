@@ -10,7 +10,7 @@ var Torrent = React.createClass({
 
   render: function() {
     return (
-      <div className="torrent">
+      <div id={this.props.infoHash} className="torrent">
         <div className="status-container">
           <div className="status-info">Status</div>
         </div>
@@ -27,19 +27,16 @@ var Torrent = React.createClass({
             <span className="ratio">{this.getRatioUpOverDown()}</span>
           </div>
         </div>
-
-
       </div>
     )
   },
 
   getRatioUpOverDown: function() {
-    var ratioUpOverDown = 0
+    var ratioUpOverDown = 0;
     if (this.props.uploadTotalSize != 0){
-      ratioUpOverDown = (this.props.uploadTotalSize / this.props.downloadTotalSize);
+      ratioUpOverDown = (this.props.uploadTotalSize / this.props.totalSize);
     }
-    ratioUpOverDown = ratioUpOverDown.toFixed(2);
-    return ratioUpOverDown;
+    return ratioUpOverDown.toFixed(2);
   },
 
   getPercentCompleted: function() {
