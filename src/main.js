@@ -1,5 +1,5 @@
 var React = require('react');
-var MainPage = require('./js/components/MainPage');
+var MainPage = require('./js/components/Torrents');
 
 
 React.render(
