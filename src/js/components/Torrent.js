@@ -24,13 +24,22 @@ var Torrent = React.createClass({
           <div className="torrent-stats">
             <span className="download-speed">{this.bytesToSize(this.props.downloadSpeed)}/s </span>
             <span className="upload-speed">{this.bytesToSize(this.props.uploadSpeed)}/s </span>
-            <span className="ratio">0.04</span>
+            <span className="ratio">{this.getRatioUpOverDown()}</span>
           </div>
         </div>
 
 
       </div>
     )
+  },
+
+  getRatioUpOverDown: function() {
+    var ratioUpOverDown = 0
+    if (this.props.uploadTotalSize != 0){
+      ratioUpOverDown = (this.props.uploadTotalSize / this.props.downloadTotalSize);
+    }
+    ratioUpOverDown = ratioUpOverDown.toFixed(2);
+    return ratioUpOverDown;
   },
 
   getPercentCompleted: function() {
