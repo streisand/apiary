@@ -7,13 +7,6 @@ var scgi = require("scgi-stream");
 var RPC  = require("xmlrpc-stream");
 var socketCtrl = require('../controllers/socket_controller');
 
-var rpc = new RPC(function() {
-    return scgi.duplex({
-        host: "127.0.0.1",
-        port: 4000,
-        path: "/"
-    });
-});
 
 app.set('port', process.env.PORT || 3000);
 
@@ -23,52 +16,6 @@ var server = app.listen(app.get('port'), function() {
 
 var io = socketIO(server);
 var socket = new socketCtrl(io);
-
-var torrents = [];
-
-function fetchTorrents(socket) {
-  rpc.call(
-    "d.multicall",
-    "default",
-    "d.get_hash=",
-    "d.get_name=", 
-    "d.get_bytes_done=",
-    "d.get_down_rate=",
-    "d.get_down_total=",
-    "d.get_up_rate=",
-    "d.get_up_total=",
-    "d.get_creation_date=",
-    "d.get_size_bytes=",
-    "or={d.get_up_rate=,d.get_down_rate=}",
-    function(err, res) {
-      torrents = res.map(function(torrentInfo) {
-        var torrentObj = {};
-        torrentObj.infoHash = torrentInfo[0];
-        torrentObj.name = torrentInfo[1];
-        torrentObj.downloadAmount = torrentInfo[2];
-        torrentObj.downloadSpeed = torrentInfo[3];
-        torrentObj.downloadTotalSize = torrentInfo[4];
-        torrentObj.uploadSpeed = torrentInfo[5];
-        torrentObj.uploadTotalSize = torrentInfo[6];
-        torrentObj.creationDate = torrentInfo[7];
-        torrentObj.totalSize = torrentInfo[8];
-        torrentObj.isActive = torrentInfo[9] === 1;
-
-        return torrentObj;
-      }
-    );
-  socket.emit('fetch-torrents', torrents);
-  });
-};
-
-
-io.on('connection', function(socket) {
-  console.log('about to emit fetch-torrents');
-  fetchTorrents(socket);
-  socket.on('getUpdates', function(res) {
-    fetchTorrents(socket);
-  })
-});
 
 
 
