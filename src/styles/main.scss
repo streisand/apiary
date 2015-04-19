@@ -1,17 +1,23 @@
 @import "bourbon";
 @import "neat";
-
+@import "../../bower_components/semantic-ui-icon/icon";
 
 #main-content {
   @include outer-container;
-
   .torrent {
     @include span-columns(12 of 12);
+    display: flex;
+    margin-bottom: em(20);
+    border-bottom: 1px solid black;
     .status-container {
-      @include span-columns(2 of 12, block-collapse);
+      @include span-columns(2 of 12);
+      align-self: center;
+      .icon {
+        font-size: 2em;   
+      }
     }
     .torrent-info {
-      @include span-columns(10 of 12, block-collapse);
+      @include span-columns(10 of 12);
     }
   }
 }
