@@ -13,10 +13,15 @@
   Next install the supported torrent backend, rtorrent.
 
     brew install rtorrent --with-xmlrpc-c
-
-  Use NPM to install some packages from the provided dependency file.
-
+  
+  Install gulp and bower globally
+    
+    npm install -g gulp bower
+    
+  Use NPM and Bower to install some packages from the provided dependency file.
+  
     npm install
+    bower install
 
 ## Usage
 
